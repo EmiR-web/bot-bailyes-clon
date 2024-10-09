@@ -52,23 +52,24 @@ const flujoPedido = addKeyword(['pedido', 'pedir']).addAnswer(
   [flujoCash, flujosOnline]
 )
 
-const conversacionPrincipal = addKeyword(['hola', 'ole', 'buenas'])
-  .addAnswer('Bienvenido al restaurante *La cuchara de palo 🙌*')
-  .addAnswer(
-      `El menu del día es el siguiente`,
-      null,
-      async (_, { flowDynamic }) => {
-          const menu = await fakeHTTPMenu()
-          return flowDynamic(menu)
-      }
-  )
-  .addAnswer('👉 Si deseas ordenar escribe *pedir*', { delay: 1500 }, null, [
-      flujoPedido,
-  ])
+const flowPrincipal = addKeyword('quiero más información')
+.addAnswer(
+    [
+        '👋 Hola, bienvenido a *Surair Climatización* 😊', 
+        '📍 Nos encontramos en *Pedro Pico 276*, Bahía Blanca',
+],
+)
+.addAnswer( '🙋‍♀️ Mi Nombre es Milva, soy asesora comercial de la empresa')
+.addAnswer('Te comparto las opciones de pago que tenemos disponibles actualmente',
+    {
+        media: ['https://iili.io/dyrrs7j.jpg' , 'https://iili.io/dyr6EPt.jpg']
+    }
+)
+.addAnswer('¿Estás buscando algún equipo en particular?')
 
 const main = async () => {
   const adapterDB = new MockAdapter()
-  const adapterFlow = createFlow([conversacionPrincipal])
+  const adapterFlow = createFlow([flowPrincipal])
   const adapterProvider = createProvider(BaileysProvider)
 
   createBot({
