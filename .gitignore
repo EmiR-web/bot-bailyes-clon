@@ -1,5 +1,4 @@
 node_modules
-*.qr.png
 *.log
 sessions
 *_sessions
